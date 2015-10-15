@@ -294,7 +294,7 @@ public class Timer {
 	@Override
 	public String toString() {
 		return "Timer [servicereference=" + servicereference + ", servicename=" + servicename + ", eit=" + eit
-				+ ", name=" + name + ", description=" + description + ", descriptionextended=" + descriptionextended
+				+ ", name=" + name
 				+ ", disabled=" + disabled + ", timebegin=" + timebegin + ", timeend=" + timeend + ", duration="
 				+ duration + ", startprepare=" + startprepare + ", justplay=" + justplay + ", afterevent=" + afterevent
 				+ ", location=" + location + ", tags=" + tags + ", logentries=" + logentries + ", filename=" + filename

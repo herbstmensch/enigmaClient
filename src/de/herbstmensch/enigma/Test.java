@@ -5,8 +5,10 @@ import java.net.MalformedURLException;
 import de.herbstmensch.enigma.api.EnigmaAPI;
 import de.herbstmensch.enigma.api.exceptions.APIException;
 import de.herbstmensch.enigma.model.BouquetList;
+import de.herbstmensch.enigma.model.EventList;
 import de.herbstmensch.enigma.model.MessageDuration;
 import de.herbstmensch.enigma.model.MessageType;
+import de.herbstmensch.enigma.model.TimerList;
 
 public class Test {
 
@@ -18,10 +20,12 @@ public class Test {
 		System.out.println(e.getServices(bl.getBouquets().get(0)));
 		System.out.println(e.epgNext(bl.getBouquets().get(0)));
 		System.out.println(e.message("Test", MessageType.INFO, MessageDuration.LONG));
-		//System.out.println(e.getTimerlist());
-		
-
-		//System.out.println(e.getTimerlist());
+		EventList el = e.epgNext(bl.getBouquets().get(0));
+		System.out.println(el);
+		System.out.println(e.timerAdd(el.getEvents().get(0), true, "/hdd/movie"));
+		TimerList tl = e.getTimerlist();
+		System.out.println(tl);
+		System.out.println(tl.getTimers().get(0));
 	}
 
 }
