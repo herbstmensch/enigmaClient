@@ -2,7 +2,7 @@ package de.herbstmensch.enigma.model;
 
 public enum MessageType {
 
-	INFO(0);
+	QUESTION(0), INFO(1), MESSAGE(2), ATTENTION(3);
 
 	private Integer value;
 

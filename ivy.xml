@@ -1,6 +1,6 @@
 <ivy-module version="1.0">
 	<info organisation="de.herbstmensch" module="enigma-client"/>
 	<dependencies>
- 		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.3.6"/>
+ 		<dependency org="com.thoughtworks.xstream" name="xstream" rev="1.4.8" conf="*->default"/> 
 	</dependencies>
 </ivy-module>

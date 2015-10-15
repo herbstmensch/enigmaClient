@@ -1,67 +1,71 @@
 package de.herbstmensch.enigma.api.parser;
 
-import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.util.List;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.mapper.MapperWrapper;
 
 import de.herbstmensch.enigma.api.exceptions.APIException;
 import de.herbstmensch.enigma.model.About;
-import de.herbstmensch.enigma.model.SimpleXMLResult;
+import de.herbstmensch.enigma.model.AboutList;
+import de.herbstmensch.enigma.model.Bouquet;
+import de.herbstmensch.enigma.model.BouquetList;
+import de.herbstmensch.enigma.model.Event;
+import de.herbstmensch.enigma.model.EventList;
+import de.herbstmensch.enigma.model.Service;
+import de.herbstmensch.enigma.model.ServiceList;
+import de.herbstmensch.enigma.model.Timer;
+import de.herbstmensch.enigma.model.TimerList;
 
 public class ResultParser {
 
-	public List<About> parseAbout(InputStream content) throws APIException {
+	private static ResultParser parser;
+
+	private XStream xstream;
+
+	private ResultParser() {
+		xstream = new XStream() {
+			@Override
+			protected MapperWrapper wrapMapper(MapperWrapper next) {
+				return new MapperWrapper(next) {
+					@Override
+					public boolean shouldSerializeMember(Class definedIn, String fieldName) {
+						if (definedIn == Object.class) {
+							return false;
+						}
+						return super.shouldSerializeMember(definedIn, fieldName);
+					}
+				};
+			}
+		};
+		xstream.processAnnotations(AboutList.class);
+		xstream.processAnnotations(About.class);
+		xstream.processAnnotations(BouquetList.class);
+		xstream.processAnnotations(Bouquet.class);
+		xstream.processAnnotations(ServiceList.class);
+		xstream.processAnnotations(Service.class);
+		xstream.processAnnotations(TimerList.class);
+		xstream.processAnnotations(Timer.class);
+		xstream.processAnnotations(EventList.class);
+		xstream.processAnnotations(Event.class);
+	}
+
+	public static ResultParser getInstance() {
+		if (parser == null)
+			parser = new ResultParser();
+		return parser;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T parse(InputStream content) throws APIException {
 		if (content == null)
 			return null;
-		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
-			SAXParser saxParser = factory.newSAXParser();
-			AboutHandler handler = new AboutHandler();
-			saxParser.parse(content, handler);
-			return handler.abouts;
+			return (T) xstream.fromXML(content);
 		} catch (Throwable t) {
-			t.printStackTrace();
-			throw new APIException(t.getMessage(), t);
+			throw new APIException("Could not parse", t);
 		}
 	}
 
-	public SimpleXMLResult parseSimpleXMLResult(InputStream content)
-			throws APIException {
-		if (content == null)
-			return null;
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		try {
-			SAXParser saxParser = factory.newSAXParser();
-			SimpleXMLResultHandler handler = new SimpleXMLResultHandler();
-			saxParser.parse(content, handler);
-			return handler.result;
-		} catch (Throwable t) {
-			t.printStackTrace();
-			throw new APIException(t.getMessage(), t);
-		}
-	}
-
-	private String recupereStringInputStream(InputStream inputStream)
-			throws Exception {
-		byte[] buffer = new byte[1024];
-		String sFinal = "";
-		int bytesRead = 0;
-		BufferedInputStream bis = new BufferedInputStream(inputStream);
-		while ((bytesRead = bis.read(buffer)) != -1) 
-			sFinal = sFinal + new String(buffer, 0, bytesRead);
-		return sFinal;
-	}
-
-	public String getString(InputStream content) throws APIException {
-		if (content == null)
-			return null;
-		try {
-			return recupereStringInputStream(content);
-		} catch (Exception e) {
-			throw new APIException(e);
-		}
-	}
 }

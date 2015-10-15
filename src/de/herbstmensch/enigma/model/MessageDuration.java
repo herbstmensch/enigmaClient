@@ -1,14 +1,12 @@
 package de.herbstmensch.enigma.model;
 
-public class MessageDuration {
+public enum MessageDuration {
 	
-	public static final MessageDuration SHORT = new MessageDuration(5);
-	public static final MessageDuration MEDIUM = new MessageDuration(10);
-	public static final MessageDuration LONG = new MessageDuration(60);
+	SHORT(5),MEDIUM(10),LONG(60);
 	
 	private Integer value;
 	
-	public MessageDuration(Integer value) {
+	private MessageDuration(Integer value) {
 		this.value = value;
 	}
 	

@@ -1,8 +1,13 @@
 package de.herbstmensch.enigma.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("e2nim")
 public class TunerInfo {
 
+	@XStreamAlias("e2name")
 	private String name;
+	@XStreamAlias("e2type")
 	private String type;
 
 	public String getName() {
@@ -19,6 +24,11 @@ public class TunerInfo {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "TunerInfo [name=" + name + ", type=" + type + "]";
 	}
 
 }

@@ -1,90 +1,151 @@
 package de.herbstmensch.enigma.api;
 
-import java.io.IOException;
+import java.net.Authenticator;
+import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 
 import de.herbstmensch.enigma.api.exceptions.APIException;
 import de.herbstmensch.enigma.api.parser.ResultParser;
-import de.herbstmensch.enigma.model.About;
+import de.herbstmensch.enigma.model.AboutList;
+import de.herbstmensch.enigma.model.Bouquet;
+import de.herbstmensch.enigma.model.BouquetList;
+import de.herbstmensch.enigma.model.EventList;
 import de.herbstmensch.enigma.model.MessageDuration;
 import de.herbstmensch.enigma.model.MessageType;
+import de.herbstmensch.enigma.model.Service;
+import de.herbstmensch.enigma.model.ServiceList;
 import de.herbstmensch.enigma.model.SimpleXMLResult;
+import de.herbstmensch.enigma.model.TimerList;
 
 public class EnigmaAPI {
 
-	private CloseableHttpClient client;
-	private HttpHost host;
-	private HttpHost proxy = new HttpHost("as-isa", 8080, "http");
-	private RequestConfig config = RequestConfig.custom().setProxy(proxy)
-			.build();
-	private ResultParser parser = new ResultParser();
+	private URL url;
 
-	public EnigmaAPI() {
-		host = new HttpHost("home.timherbst.de", 82, "http");
+	public EnigmaAPI(boolean useHttps, String host, int port) throws MalformedURLException {
+		this(useHttps, host, port, null, null);
 	}
 
-	public List<About> about() {
-		try {
-			HttpEntity entity = get("/web/about");
-			return parser.parseAbout(entity.getContent());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public EnigmaAPI(boolean useHttps, String host, int port, final String user, final String pass)
+			throws MalformedURLException {
+		this.url = new URL((useHttps ? "https" : "http") + "://" + host + ":" + port);
+		if (user != null)
+			Authenticator.setDefault(new Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(user, pass.toCharArray());
+
+				}
+			});
 	}
 
-	public void message(String message, MessageType messageType, MessageDuration duration) throws APIException {
+	public AboutList about() throws APIException {
 		try {
-			HttpEntity entity = get(MessageFormat.format("/web/message?text={0}&type={1}&duration={2,number,integer}", message, messageType.value(), duration.value()) );
-			SimpleXMLResult r = parser
-					.parseSimpleXMLResult(entity.getContent());
-			if("FALSE".equalsIgnoreCase(r.getState())){
-				throw new APIException("Send Message failed: " + r.getText());
-			} else {
-				System.out.println(r.getText());
-			}
+
+			URLConnection con = new URL(url, "web/about").openConnection();
+
+			return ResultParser.getInstance().parse(con.getInputStream());
 		} catch (Exception e) {
 			throw new APIException(e);
 		}
 	}
 
-	private HttpEntity get(String uri) throws APIException {
+	public BouquetList getAllServices() throws APIException {
 		try {
-			HttpGet get = new HttpGet(uri);
-			get.setConfig(config);
-			HttpResponse r = getClient().execute(host, get);
-
-			if (r.getStatusLine().getStatusCode() != 200)
-				throw new APIException("Return code was: "
-						+ r.getStatusLine().getStatusCode());
-
-			return r.getEntity();
-		} catch (IOException e) {
+			URLConnection con = new URL(url, "/web/getallservices").openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
 			throw new APIException(e);
 		}
 	}
 
-	private CloseableHttpClient getClient() {
-		if (client != null)
-			return client;
-		else
-			return client = HttpClientBuilder.create().build();
+	public TimerList getTimerlist() throws APIException {
+		try {
+			URLConnection con = new URL(url, "/web/timerlist").openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
 	}
 
-	public static void main(String[] args) throws APIException {
-		About a = new EnigmaAPI().about().get(0);
-		System.out.println(a.getImageversion());
-		new EnigmaAPI().message("Test",MessageType.INFO, MessageDuration.SHORT);
+	public ServiceList getServices(Bouquet bouquet) throws APIException {
+		try {
+			URLConnection con = new URL(url, MessageFormat.format("/web/getservices?sRef={0}",
+					URLEncoder.encode(bouquet.getServicereference(), "UTF-8"))).openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+
+	public EventList epg(Bouquet bouquet, Timestamp time) throws APIException {
+		try {
+			URLConnection con = new URL(url,
+					MessageFormat.format("/web/epgbouquet?bRef={0}&time={1,number,#}",
+							URLEncoder.encode(bouquet.getServicereference(), "UTF-8"), time.getTime() / 1000))
+									.openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+
+	}
+
+	public EventList epgNow(Bouquet bouquet) throws APIException {
+		try {
+			URLConnection con = new URL(url, MessageFormat.format("/web/epgnow?bRef={0}",
+					URLEncoder.encode(bouquet.getServicereference(), "UTF-8"))).openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+
+	public EventList epgNext(Bouquet bouquet) throws APIException {
+		try {
+			URLConnection con = new URL(url, MessageFormat.format("/web/epgnext?bRef={0}",
+					URLEncoder.encode(bouquet.getServicereference(), "UTF-8"))).openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+
+	public SimpleXMLResult zap(Service service) throws APIException {
+		try {
+			URLConnection con = new URL(url, MessageFormat.format("/web/zap?sRef={0}",
+					URLEncoder.encode(service.getServicereference(), "UTF-8"))).openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+
+	public SimpleXMLResult message(String message, MessageType messageType, MessageDuration duration)
+			throws APIException {
+
+		try {
+			URLConnection con = new URL(url,
+					MessageFormat.format("/web/message?text={0}&type={1}&timeout={2,number,#}",
+							URLEncoder.encode(message, "UTF-8"), messageType.value(), duration.value()))
+									.openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+
+	}
+
+	public SimpleXMLResult messageAnswer() throws APIException {
+		try {
+			URLConnection con = new URL(url, "/web/messageanswer?getanswer=now").openConnection();
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
 	}
 
 }

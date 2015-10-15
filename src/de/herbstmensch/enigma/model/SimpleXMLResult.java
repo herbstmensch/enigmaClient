@@ -1,11 +1,15 @@
 package de.herbstmensch.enigma.model;
 
-import java.text.MessageFormat;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XStreamAlias("e2simplexmlresult")
 public class SimpleXMLResult {
 
-	String state;
-	String text;
+	@XStreamAlias("e2state")
+	private String state;
+
+	@XStreamAlias("e2statetext")
+	private String statetext;
 
 	public String getState() {
 		return state;
@@ -15,17 +19,9 @@ public class SimpleXMLResult {
 		this.state = state;
 	}
 
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-	
 	@Override
 	public String toString() {
-		return MessageFormat.format("'{'\n\tState: ''{0}'',\n\tText: ''{1}''\n'}'", getState(), getText());
+		return "SimpleXMLResult [state=" + state + ", statetext=" + statetext + "]";
 	}
 
 }
