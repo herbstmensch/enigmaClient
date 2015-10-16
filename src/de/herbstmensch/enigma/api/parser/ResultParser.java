@@ -14,6 +14,7 @@ import de.herbstmensch.enigma.model.Event;
 import de.herbstmensch.enigma.model.EventList;
 import de.herbstmensch.enigma.model.Service;
 import de.herbstmensch.enigma.model.ServiceList;
+import de.herbstmensch.enigma.model.SimpleXMLResult;
 import de.herbstmensch.enigma.model.Timer;
 import de.herbstmensch.enigma.model.TimerList;
 
@@ -48,6 +49,7 @@ public class ResultParser {
 		xstream.processAnnotations(Timer.class);
 		xstream.processAnnotations(EventList.class);
 		xstream.processAnnotations(Event.class);
+		xstream.processAnnotations(SimpleXMLResult.class);
 	}
 
 	public static ResultParser getInstance() {
