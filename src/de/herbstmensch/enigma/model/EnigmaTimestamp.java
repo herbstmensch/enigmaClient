@@ -18,7 +18,6 @@ public class EnigmaTimestamp extends Timestamp {
 
         return new EnigmaTimestamp(l);
 
-
     }
 
     public long getEnigmaTime() {

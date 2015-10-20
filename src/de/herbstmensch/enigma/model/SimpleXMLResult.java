@@ -19,6 +19,14 @@ public class SimpleXMLResult {
 		this.state = state;
 	}
 
+	public String getStatetext() {
+		return statetext;
+	}
+
+	public void setStatetext(String statetext) {
+		this.statetext = statetext;
+	}
+
 	@Override
 	public String toString() {
 		return "SimpleXMLResult [state=" + state + ", statetext=" + statetext + "]";
