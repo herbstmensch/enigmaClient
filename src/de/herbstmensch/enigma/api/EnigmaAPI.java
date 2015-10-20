@@ -43,9 +43,18 @@ public class EnigmaAPI {
 		}
 	}
 
-	public EventList epg(Bouquet bouquet, Timestamp time) throws APIException {
+	public EventList epgBouquet(Bouquet bouquet, Timestamp time) throws APIException {
 		try {
 			URLConnection con = getConnection(MessageFormat.format("/web/epgbouquet?bRef={0}&time={1,number,#}", URLEncoder.encode(bouquet.getServicereference(), "UTF-8"), time.getTime() / 1000));
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+	
+	public EventList epgMulti(Bouquet bouquet, Timestamp time, Timestamp endTime) throws APIException {
+		try {
+			URLConnection con = getConnection(MessageFormat.format("/web/epgbouquet?bRef={0}&time={1,number,#}&endTime={2,number,#}", URLEncoder.encode(bouquet.getServicereference(), "UTF-8"), time.getTime() / 1000, endTime.getTime() / 1000));
 			return ResultParser.getInstance().parse(con.getInputStream());
 		} catch (Exception e) {
 			throw new APIException(e);
@@ -64,6 +73,49 @@ public class EnigmaAPI {
 	public EventList epgNow(Bouquet bouquet) throws APIException {
 		try {
 			URLConnection con = getConnection(MessageFormat.format("/web/epgnow?bRef={0}", URLEncoder.encode(bouquet.getServicereference(), "UTF-8")));
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+	public EventList epgNowNext(Bouquet bouquet) throws APIException {
+		try {
+			URLConnection con = getConnection(MessageFormat.format("/web/epgnowNext?bRef={0}", URLEncoder.encode(bouquet.getServicereference(), "UTF-8")));
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+	public EventList epgSearch(String search) throws APIException {
+		try {
+			URLConnection con = getConnection(MessageFormat.format("/web/epgsearch?search={0}", URLEncoder.encode(search, "UTF-8")));
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+	
+	public EventList epgService(Service service, Timestamp time, Timestamp endTime) throws APIException {
+		try {
+			URLConnection con = getConnection(MessageFormat.format("/web/epgservice?sRef={0}&time={1,number,#}&endTime={2,number,#}", URLEncoder.encode(service.getServicereference(), "UTF-8"), time.getTime() / 1000, endTime.getTime() / 1000));
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+
+	public EventList epgServiceNext(Service service) throws APIException {
+		try {
+			URLConnection con = getConnection(MessageFormat.format("/web/epgnext?sRef={0}", URLEncoder.encode(service.getServicereference(), "UTF-8")));
+			return ResultParser.getInstance().parse(con.getInputStream());
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+	}
+
+	public EventList epgServiceNow(Service service) throws APIException {
+		try {
+			URLConnection con = getConnection(MessageFormat.format("/web/epgnow?sRef={0}", URLEncoder.encode(service.getServicereference(), "UTF-8")));
 			return ResultParser.getInstance().parse(con.getInputStream());
 		} catch (Exception e) {
 			throw new APIException(e);
