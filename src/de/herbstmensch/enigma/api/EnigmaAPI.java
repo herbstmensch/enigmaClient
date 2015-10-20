@@ -106,7 +106,7 @@ public class EnigmaAPI {
 
 	public EventList epgServiceNext(Service service) throws APIException {
 		try {
-			URLConnection con = getConnection(MessageFormat.format("/web/epgnext?sRef={0}", URLEncoder.encode(service.getServicereference(), "UTF-8")));
+			URLConnection con = getConnection(MessageFormat.format("/web/epgservicenext?sRef={0}", URLEncoder.encode(service.getServicereference(), "UTF-8")));
 			return ResultParser.getInstance().parse(con.getInputStream());
 		} catch (Exception e) {
 			throw new APIException(e);
@@ -115,7 +115,7 @@ public class EnigmaAPI {
 
 	public EventList epgServiceNow(Service service) throws APIException {
 		try {
-			URLConnection con = getConnection(MessageFormat.format("/web/epgnow?sRef={0}", URLEncoder.encode(service.getServicereference(), "UTF-8")));
+			URLConnection con = getConnection(MessageFormat.format("/web/epgservicenow?sRef={0}", URLEncoder.encode(service.getServicereference(), "UTF-8")));
 			return ResultParser.getInstance().parse(con.getInputStream());
 		} catch (Exception e) {
 			throw new APIException(e);
