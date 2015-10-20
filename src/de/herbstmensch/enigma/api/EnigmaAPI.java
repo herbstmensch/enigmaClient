@@ -222,11 +222,11 @@ public class EnigmaAPI {
 		}
 	}
 
-	private void checkError(String result) throws EnigmaException {
+	private void checkError(String result) throws EnigmaException, APIException {
 		SimpleXMLResult sr;
 		try {
 			sr = ResultParser.getInstance().parse(result);
-		} catch (APIException e) {
+		} catch (ClassCastException e) {
 			// Result is no SimpleXMLResult
 			return;
 		}
