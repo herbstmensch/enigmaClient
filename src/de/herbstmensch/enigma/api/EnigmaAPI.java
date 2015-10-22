@@ -108,7 +108,7 @@ public class EnigmaAPI {
 	public EventList epgService(Service service, EnigmaTimestamp time, EnigmaTimestamp endTime) throws APIException, EnigmaException {
 		if (service == null)
 			throw new APIException("Service must not be null");
-		String url = MessageFormat.format("/web/epgservice?bRef={0}", encode(service.getServicereference()));
+		String url = MessageFormat.format("/web/epgservice?sRef={0}", encode(service.getServicereference()));
 		if (time != null)
 			url += MessageFormat.format("&time={0,number,#}", time.getEnigmaTime());
 		if (endTime != null)

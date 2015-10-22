@@ -1,21 +1,24 @@
 package de.herbstmensch.enigma.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+
+import de.herbstmensch.enigma.EnigmaTimestampConverter;
 
 @XStreamAlias("e2event")
 public class Event {
 
 	@XStreamAlias("e2eventid")
-	private String id;
+	private Integer id;
 
 	@XStreamAlias("e2eventstart")
-	private String start;
+	private EnigmaTimestamp start;
 
 	@XStreamAlias("e2eventduration")
-	private String duration;
+	private Integer duration;
 
 	@XStreamAlias("e2eventcurrenttime")
-	private String currenttime;
+	private EnigmaTimestamp currenttime;
 
 	@XStreamAlias("e2eventtitle")
 	private String title;
@@ -32,35 +35,35 @@ public class Event {
 	@XStreamAlias("e2eventservicename")
 	private String servicename;
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getStart() {
+	public EnigmaTimestamp getStart() {
 		return start;
 	}
 
-	public void setStart(String start) {
+	public void setStart(EnigmaTimestamp start) {
 		this.start = start;
 	}
 
-	public String getDuration() {
+	public Integer getDuration() {
 		return duration;
 	}
 
-	public void setDuration(String duration) {
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 
-	public String getCurrenttime() {
+	public EnigmaTimestamp getCurrenttime() {
 		return currenttime;
 	}
 
-	public void setCurrenttime(String currenttime) {
+	public void setCurrenttime(EnigmaTimestamp currenttime) {
 		this.currenttime = currenttime;
 	}
 

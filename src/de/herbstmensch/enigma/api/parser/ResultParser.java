@@ -5,6 +5,7 @@ import java.io.InputStream;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.mapper.MapperWrapper;
 
+import de.herbstmensch.enigma.EnigmaTimestampConverter;
 import de.herbstmensch.enigma.api.exceptions.APIException;
 import de.herbstmensch.enigma.model.About;
 import de.herbstmensch.enigma.model.AboutList;
@@ -39,6 +40,7 @@ public class ResultParser {
 				};
 			}
 		};
+		xstream.registerConverter(new EnigmaTimestampConverter());
 		xstream.processAnnotations(AboutList.class);
 		xstream.processAnnotations(About.class);
 		xstream.processAnnotations(BouquetList.class);
