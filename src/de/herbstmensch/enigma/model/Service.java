@@ -9,6 +9,9 @@ public class Service {
 	String servicereference;
 	@XStreamAlias("e2servicename")
 	String servicename;
+	
+	public Service() {
+	}
 
 	public Service(String servicereference, String servicename) {
 		super();

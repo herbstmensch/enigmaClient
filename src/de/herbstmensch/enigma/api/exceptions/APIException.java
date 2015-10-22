@@ -1,5 +1,10 @@
 package de.herbstmensch.enigma.api.exceptions;
 
+/**
+ * @author Tim
+ *
+ * Generic Exception, indicating something went wrong within API
+ */
 public class APIException extends Exception {
 
 	private static final long serialVersionUID = -6286680069838889042L;

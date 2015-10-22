@@ -60,7 +60,7 @@ public class ResultParser {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T parse(InputStream content) throws APIException {
+	public <T> T parse(String content) throws APIException {
 		if (content == null)
 			return null;
 		try {

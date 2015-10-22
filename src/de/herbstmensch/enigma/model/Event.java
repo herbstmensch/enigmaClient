@@ -103,6 +103,10 @@ public class Event {
 	public void setServicename(String servicename) {
 		this.servicename = servicename;
 	}
+	
+	public Service getService(){
+		return new Service(servicereference, servicename);
+	}
 
 	@Override
 	public String toString() {
