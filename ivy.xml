@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 <ivy-module version="1.0">
 	<info organisation="de.herbstmensch" module="enigma-client"/>
 	<dependencies>
  		<dependency org="com.thoughtworks.xstream" name="xstream" rev="1.4.7" conf="*->default"/> 
 	</dependencies>
-=======
-<ivy-module version="1.0">
-	<info organisation="de.herbstmensch" module="enigma-client"/>
-	<dependencies>
- 		<dependency org="com.thoughtworks.xstream" name="xstream" rev="1.4.7" conf="*->default"/> 
-	</dependencies>
->>>>>>> refs/remotes/origin/master
 </ivy-module>
