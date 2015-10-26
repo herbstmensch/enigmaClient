@@ -6,9 +6,6 @@ import java.net.MalformedURLException;
 import de.herbstmensch.enigma.api.EnigmaAPI;
 import de.herbstmensch.enigma.api.exceptions.APIException;
 import de.herbstmensch.enigma.api.exceptions.EnigmaException;
-import de.herbstmensch.enigma.model.BouquetList;
-import de.herbstmensch.enigma.model.MessageDuration;
-import de.herbstmensch.enigma.model.MessageType;
 
 public class Test {
 

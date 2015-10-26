@@ -3,18 +3,20 @@ package de.herbstmensch.enigma.model;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-import de.herbstmensch.enigma.EnigmaTimestampConverter;
+import de.herbstmensch.enigma.MayBeNoneConverter;
 
 @XStreamAlias("e2event")
 public class Event {
 
 	@XStreamAlias("e2eventid")
+	@XStreamConverter(MayBeNoneConverter.class)
 	private Integer id;
 
 	@XStreamAlias("e2eventstart")
 	private EnigmaTimestamp start;
 
 	@XStreamAlias("e2eventduration")
+	@XStreamConverter(MayBeNoneConverter.class)
 	private Integer duration;
 
 	@XStreamAlias("e2eventcurrenttime")

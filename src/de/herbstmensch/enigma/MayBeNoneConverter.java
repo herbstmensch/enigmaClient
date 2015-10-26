@@ -6,25 +6,23 @@ import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
-import de.herbstmensch.enigma.model.EnigmaTimestamp;
-
-public class EnigmaTimestampConverter implements Converter {
+public class MayBeNoneConverter implements Converter {
 
 	@Override
 	public boolean canConvert(@SuppressWarnings("rawtypes") Class object) {
-		return object.equals(EnigmaTimestamp.class);
+		return object.equals(Integer.class);
 	}
 
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-		EnigmaTimestamp ts = (EnigmaTimestamp) value;
-		writer.setValue("" + ts.getEnigmaTime());
+		Integer i = (Integer) value;
+		writer.setValue(i.toString());
 	}
 
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		String t = reader.getValue();
 		if ("none".equalsIgnoreCase(t))
 			return null;
-		return  EnigmaTimestamp.from(t);
+		return Integer.parseInt(t);
 	}
 
 }

@@ -1,7 +1,5 @@
 package de.herbstmensch.enigma.api.parser;
 
-import java.io.InputStream;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.mapper.MapperWrapper;
 
@@ -31,7 +29,7 @@ public class ResultParser {
 			protected MapperWrapper wrapMapper(MapperWrapper next) {
 				return new MapperWrapper(next) {
 					@Override
-					public boolean shouldSerializeMember(Class definedIn, String fieldName) {
+					public boolean shouldSerializeMember(@SuppressWarnings("rawtypes") Class definedIn, String fieldName) {
 						if (definedIn == Object.class) {
 							return false;
 						}
