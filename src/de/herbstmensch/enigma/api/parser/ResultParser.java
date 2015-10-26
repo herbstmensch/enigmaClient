@@ -11,6 +11,10 @@ import de.herbstmensch.enigma.model.Bouquet;
 import de.herbstmensch.enigma.model.BouquetList;
 import de.herbstmensch.enigma.model.Event;
 import de.herbstmensch.enigma.model.EventList;
+import de.herbstmensch.enigma.model.Location;
+import de.herbstmensch.enigma.model.LocationList;
+import de.herbstmensch.enigma.model.Movie;
+import de.herbstmensch.enigma.model.MovieList;
 import de.herbstmensch.enigma.model.Service;
 import de.herbstmensch.enigma.model.ServiceList;
 import de.herbstmensch.enigma.model.SimpleXMLResult;
@@ -39,17 +43,23 @@ public class ResultParser {
 			}
 		};
 		xstream.registerConverter(new EnigmaTimestampConverter());
-		xstream.processAnnotations(AboutList.class);
+
+		xstream.autodetectAnnotations(true);
 		xstream.processAnnotations(About.class);
-		xstream.processAnnotations(BouquetList.class);
+		xstream.processAnnotations(AboutList.class);
 		xstream.processAnnotations(Bouquet.class);
-		xstream.processAnnotations(ServiceList.class);
-		xstream.processAnnotations(Service.class);
-		xstream.processAnnotations(TimerList.class);
-		xstream.processAnnotations(Timer.class);
-		xstream.processAnnotations(EventList.class);
+		xstream.processAnnotations(BouquetList.class);
 		xstream.processAnnotations(Event.class);
+		xstream.processAnnotations(EventList.class);
+		xstream.processAnnotations(Location.class);
+		xstream.processAnnotations(LocationList.class);
+		xstream.processAnnotations(Movie.class);
+		xstream.processAnnotations(MovieList.class);
+		xstream.processAnnotations(Service.class);
+		xstream.processAnnotations(ServiceList.class);
 		xstream.processAnnotations(SimpleXMLResult.class);
+		xstream.processAnnotations(Timer.class);
+		xstream.processAnnotations(TimerList.class);
 	}
 
 	public static ResultParser getInstance() {

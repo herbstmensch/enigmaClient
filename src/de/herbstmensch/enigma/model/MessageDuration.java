@@ -2,7 +2,7 @@ package de.herbstmensch.enigma.model;
 
 public enum MessageDuration {
 	
-	SHORT(5),MEDIUM(10),LONG(60);
+	LONG(60),MEDIUM(10),SHORT(5);
 	
 	private Integer value;
 	

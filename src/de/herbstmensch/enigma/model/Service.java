@@ -6,10 +6,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("e2service")
 public class Service {
 
-	@XStreamAlias("e2servicereference")
-	String servicereference;
 	@XStreamAlias("e2servicename")
 	String servicename;
+	@XStreamAlias("e2servicereference")
+	String servicereference;
 	
 	public Service() {
 	}
@@ -20,20 +20,20 @@ public class Service {
 		this.servicename = servicename;
 	}
 
-	public String getServicereference() {
-		return servicereference;
-	}
-
-	public void setServicereference(String servicereference) {
-		this.servicereference = servicereference;
-	}
-
 	public String getServicename() {
 		return servicename;
 	}
 
+	public String getServicereference() {
+		return servicereference;
+	}
+
 	public void setServicename(String servicename) {
 		this.servicename = servicename;
+	}
+
+	public void setServicereference(String servicereference) {
+		this.servicereference = servicereference;
 	}
 
 	@Override

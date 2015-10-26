@@ -16,12 +16,12 @@ public class SimpleXMLResult {
 		return state;
 	}
 
-	public void setState(String state) {
-		this.state = state;
-	}
-
 	public String getStatetext() {
 		return statetext;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public void setStatetext(String statetext) {

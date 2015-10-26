@@ -8,22 +8,8 @@ import de.herbstmensch.enigma.MayBeNoneConverter;
 @XStreamAlias("e2event")
 public class Event {
 
-	@XStreamAlias("e2eventid")
-	@XStreamConverter(MayBeNoneConverter.class)
-	private Integer id;
-
-	@XStreamAlias("e2eventstart")
-	private EnigmaTimestamp start;
-
-	@XStreamAlias("e2eventduration")
-	@XStreamConverter(MayBeNoneConverter.class)
-	private Integer duration;
-
 	@XStreamAlias("e2eventcurrenttime")
 	private EnigmaTimestamp currenttime;
-
-	@XStreamAlias("e2eventtitle")
-	private String title;
 
 	@XStreamAlias("e2eventdescription")
 	private String description;
@@ -31,86 +17,100 @@ public class Event {
 	@XStreamAlias("e2eventdescriptionextended")
 	private String descriptionextended;
 
-	@XStreamAlias("e2eventservicereference")
-	private String servicereference;
+	@XStreamAlias("e2eventduration")
+	@XStreamConverter(MayBeNoneConverter.class)
+	private Integer duration;
+
+	@XStreamAlias("e2eventid")
+	@XStreamConverter(MayBeNoneConverter.class)
+	private Integer id;
 
 	@XStreamAlias("e2eventservicename")
 	private String servicename;
 
-	public Integer getId() {
-		return id;
-	}
+	@XStreamAlias("e2eventservicereference")
+	private String servicereference;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	@XStreamAlias("e2eventstart")
+	private EnigmaTimestamp start;
 
-	public EnigmaTimestamp getStart() {
-		return start;
-	}
-
-	public void setStart(EnigmaTimestamp start) {
-		this.start = start;
-	}
-
-	public Integer getDuration() {
-		return duration;
-	}
-
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
+	@XStreamAlias("e2eventtitle")
+	private String title;
 
 	public EnigmaTimestamp getCurrenttime() {
 		return currenttime;
-	}
-
-	public void setCurrenttime(EnigmaTimestamp currenttime) {
-		this.currenttime = currenttime;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public String getDescriptionextended() {
 		return descriptionextended;
 	}
 
-	public void setDescriptionextended(String descriptionextended) {
-		this.descriptionextended = descriptionextended;
+	public Integer getDuration() {
+		return duration;
 	}
 
-	public String getServicereference() {
-		return servicereference;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setServicereference(String servicereference) {
-		this.servicereference = servicereference;
+	public Service getService(){
+		return new Service(servicereference, servicename);
 	}
 
 	public String getServicename() {
 		return servicename;
 	}
 
+	public String getServicereference() {
+		return servicereference;
+	}
+
+	public EnigmaTimestamp getStart() {
+		return start;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setCurrenttime(EnigmaTimestamp currenttime) {
+		this.currenttime = currenttime;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setDescriptionextended(String descriptionextended) {
+		this.descriptionextended = descriptionextended;
+	}
+
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public void setServicename(String servicename) {
 		this.servicename = servicename;
 	}
+
+	public void setServicereference(String servicereference) {
+		this.servicereference = servicereference;
+	}
+
+	public void setStart(EnigmaTimestamp start) {
+		this.start = start;
+	}
 	
-	public Service getService(){
-		return new Service(servicereference, servicename);
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	@Override
